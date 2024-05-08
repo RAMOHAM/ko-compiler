@@ -1,6 +1,12 @@
 package lexer
 
 class Token (private val value : String, private val type: TokenType) {
+    fun getValue() : String {
+        return value
+    }
+    fun getType() : TokenType {
+        return type
+    }
     override fun toString(): String {
         return "Token(value=$value, type=$type)"
     }

@@ -1,6 +1,6 @@
 package lexer
 
-class LexicalAnalyzer() {
+class LexicalAnalyzer {
     private var position = 0
     private val operationsList = listOf("+","-","/","*")
     private val parenthesisList = listOf("(", ")")
