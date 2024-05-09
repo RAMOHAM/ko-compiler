@@ -4,6 +4,7 @@ import ast.BinaryOpsNode
 import ast.Node
 import ast.NumericNode
 import lexer.Token
+import lexer.TokenType
 
 class SyntaxAnalyzer (private val tokens: ArrayList<Token>){
     private var position = 0
@@ -13,29 +14,33 @@ class SyntaxAnalyzer (private val tokens: ArrayList<Token>){
     }
 
     private fun getFactor() : Node {
+        if(tokens[position].getType() == TokenType.PARENTHESIS){
+            position++
+            val resultNode = getExpression()
+            position++
+            return resultNode
+        }
         val resultNode =  NumericNode(tokens[position])
         position++
         return resultNode
     }
 
     private fun getTerm() : Node {
-        val termOps = listOf("*","/")
-        var leftValue = getFactor()
-        while (termOps.contains(tokens[position].getValue())) {
-            val opsValue = tokens[position]
-            position++
-            leftValue = BinaryOpsNode(leftValue, opsValue, getFactor())
-        }
-        return leftValue
+        val opsList = listOf("*","/")
+        return getBinaryOpsExpression(::getFactor, opsList)
     }
 
     private fun getExpression() : Node {
-        val expOps = listOf("+","-")
-        var leftValue = getTerm()
-        while (expOps.contains(tokens[position].getValue())){
+        val opsList = listOf("+","-")
+        return getBinaryOpsExpression(::getTerm, opsList)
+    }
+
+    private fun getBinaryOpsExpression(getLeftNode: () -> Node, opsList: List<String>) : Node {
+        var leftValue = getLeftNode()
+        while (opsList.contains(tokens[position].getValue())){
             val opsValue = tokens[position]
             position++
-            leftValue = BinaryOpsNode(leftValue, opsValue, getTerm())
+            leftValue = BinaryOpsNode(leftValue, opsValue, getLeftNode())
         }
         return leftValue
     }
