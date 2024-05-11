@@ -10,8 +10,5 @@ class NumericNode (private val value: Token) : Node {
     override fun toString(): String {
         return "Num(${value.getValue()})"
     }
-    override fun visit() {
-        TODO("Not yet implemented")
-    }
 
 }

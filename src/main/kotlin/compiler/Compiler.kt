@@ -1,5 +1,6 @@
 package compiler
 
+import interpreter.Interpreter
 import lexer.LexicalAnalyzer
 import parser.SyntaxAnalyzer
 
@@ -16,7 +17,11 @@ fun main() {
         if (tokens != null) {
             val parser = SyntaxAnalyzer(tokens)
             val parseResult = parser.parseTokens()
-            println(parseResult.toString())
+
+            // Interpreter
+            val interpreter = Interpreter()
+            val compiledResult = interpreter.parseAST(parseResult)
+            println(compiledResult)
         }
     }
 }
