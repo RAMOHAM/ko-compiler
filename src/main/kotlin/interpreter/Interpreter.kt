@@ -3,6 +3,7 @@ package interpreter
 import ast.BinaryOpsNode
 import ast.Node
 import ast.NumericNode
+import ast.UnaryOpsNode
 
 class Interpreter : Visitor() {
     fun parseAST(astTree : Node): Any {
@@ -20,6 +21,10 @@ class Interpreter : Visitor() {
         }
     }
     fun visitNumericNode(node : NumericNode): String {
+        return node.getValue()
+    }
+
+    fun visitUnaryOpsNode(node: UnaryOpsNode) : String {
         return node.getValue()
     }
 }

@@ -3,6 +3,7 @@ package parser
 import ast.BinaryOpsNode
 import ast.Node
 import ast.NumericNode
+import ast.UnaryOpsNode
 import lexer.Token
 import lexer.TokenType
 
@@ -17,6 +18,11 @@ class SyntaxAnalyzer (private val tokens: ArrayList<Token>){
         if(tokens[position].getType() == TokenType.PARENTHESIS){
             position++
             val resultNode = getExpression()
+            position++
+            return resultNode
+        }
+        if(tokens[position].getValue().toCharArray()[0] == '-'){
+            val resultNode = UnaryOpsNode(tokens[position], Token("-", TokenType.OPERATION))
             position++
             return resultNode
         }

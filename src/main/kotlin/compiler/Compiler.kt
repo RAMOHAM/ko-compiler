@@ -17,6 +17,7 @@ fun main() {
         if (tokens != null) {
             val parser = SyntaxAnalyzer(tokens)
             val parseResult = parser.parseTokens()
+            println(parseResult)
 
             // Interpreter
             val interpreter = Interpreter()
