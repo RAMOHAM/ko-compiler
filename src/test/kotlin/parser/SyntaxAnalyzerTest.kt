@@ -2,6 +2,7 @@ package parser
 
 import ast.BinaryOpsNode
 import ast.NumericNode
+import ast.UnaryOpsNode
 import lexer.LexicalAnalyzer
 import lexer.Token
 import lexer.TokenType
@@ -58,6 +59,20 @@ class SyntaxAnalyzerTest {
             val expectedRightNode = BinaryOpsNode(rightNodeFirst, Token("+", TokenType.OPERATION), rightNodeLast )
             val expectedNodes = BinaryOpsNode(expectedLeftNode, Token("+", TokenType.OPERATION), expectedRightNode)
             assertEquals(expectedNodes, parseResult)
+        }
+    }
+
+    @Test
+    fun `should create a Unary Ops node when expected`(){
+        val tokens = generateToken(" 3 + -5 ")
+        if(tokens != null){
+            val parser = SyntaxAnalyzer(tokens)
+            val parseResult = parser.parseTokens()
+
+            val expectedLeftNode = NumericNode(Token("3", TokenType.NUMERIC))
+            val expectedRightNode = UnaryOpsNode(Token("-5", TokenType.NUMERIC), Token("-", TokenType.OPERATION))
+            val expectedNode = BinaryOpsNode(expectedLeftNode, Token("+", TokenType.OPERATION), expectedRightNode )
+            assertEquals(expectedNode, parseResult)
         }
     }
 }
